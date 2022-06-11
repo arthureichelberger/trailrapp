@@ -1,4 +1,6 @@
 .DEFAULT_GOAL := help
+.PHONY: build
+IMG="ghcr.io/arthureichelberger/trailrapp"
 
 help: ## Makefile help
 help:
@@ -11,3 +13,11 @@ start:
 build: ## Build the app locally
 build:
 	npm run build
+
+lint: ## Run the linter
+lint:
+	npm run lint
+
+deploy: ## Deploy the image
+deploy:
+	./deploy.sh $(IMG) -f ./dist/Dockerfile .

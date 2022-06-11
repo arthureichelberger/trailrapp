@@ -1,0 +1,32 @@
+name: React workflow
+on:
+  pull_request:
+  push:
+    branches:
+      - develop
+      - master
+  create:
+    tags:
+      - v*
+
+jobs:
+  lint:
+    name: Run the linter
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16.15.1
+      - run: npm ci
+      - run: make lint
+  build:
+    name: Deploy the app
+    needs: [lint]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16.15.1
+      - run: make deploy
